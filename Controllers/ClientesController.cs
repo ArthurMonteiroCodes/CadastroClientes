@@ -58,11 +58,32 @@ namespace CadastroClientes.Controllers
         }
 
         [HttpDelete("Deletar")]
-        public object Deletar(int IdCliente)
+        public object Deletar(string Documento)
         {
             try
             {
+                ClientesRepository clientes = new ClientesRepository();
+                bool retornoDelete = clientes.Deletar(Documento);
 
+                return retornoDelete;
+            }
+            catch (Exception ex)
+            {
+
+            }
+
+            return null;
+        }
+
+        [HttpGet("GetCliente")]
+        public object GetCliente(string Documento)
+        {
+            try
+            {
+                ClientesRepository clientes = new ClientesRepository();
+                var retorno = clientes.GetCliente(Documento);
+
+                return retorno;
             }
             catch (Exception ex)
             {
