@@ -19,12 +19,12 @@
 
                 string clientesTexto = JsonConvert.SerializeObject(clientes) + "," + Environment.NewLine;
 
-                File.AppendAllText("C:\\Users\\famon\\Downloads\\Projettos\\CadastroClientes\\BancoDados\\bancodados.txt", clientesTexto);
+                File.AppendAllText("C:\\Users\\famon\\OneDrive\\Área de Trabalho\\CadastroClientes\\BancoDados\\BancoDados.txt", clientesTexto);
             }
 
             public List<Clientes> Listar()
             {
-                var clientes = File.ReadAllText("C:\\Users\\famon\\Downloads\\Projettos\\CadastroClientes\\BancoDados\\bancodados.txt");
+                var clientes = File.ReadAllText("C:\\Users\\famon\\OneDrive\\Área de Trabalho\\CadastroClientes\\BancoDados\\BancoDados.txt");
 
                 List<Clientes> clientesLista = JsonConvert.DeserializeObject<List<Clientes>>("[" + clientes + "]");
 
@@ -39,7 +39,7 @@
                 {
                     listaClientes.Remove(item);
 
-                    File.WriteAllText("C:\\Users\\famon\\Downloads\\Projettos\\CadastroClientes\\BancoDados\\bancodados.txt", string.Empty);
+                    File.WriteAllText("C:\\Users\\famon\\OneDrive\\Área de Trabalho\\CadastroClientes\\BancoDados\\BancoDados.txt", string.Empty);
 
                     foreach (var cliente in listaClientes)
                     {
