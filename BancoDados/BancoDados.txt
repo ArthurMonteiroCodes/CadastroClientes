@@ -1,0 +1,1 @@
+{"IdCliente":0,"Documento":"111111","Nome":"tats","Sexo":"FEMININO","Email":"aaaaa","Telefone":"eeeeee","Fax":"eeeeeee","UF":"PE"},

@@ -1,63 +1,67 @@
-﻿    using Newtonsoft.Json;
+﻿using Microsoft.Data.SqlClient;
+using Newtonsoft.Json;
     using System.Collections.Generic;
-    using System.Text.Json.Serialization;
+using System.Data;
+using System.Data.SqlTypes;
+using System.Text.Json.Serialization;
 
     namespace CadastroClientes.Models.Repository
     {
         public class ClientesRepository
         {
+            private AppConnection _appConfig;
+
+            public ClientesRepository(AppConnection appConfig)
+            {
+                _appConfig = appConfig;
+            }
+    
+
             public void Salvar(Clientes clientes)
             {
-                var listaClientes = Listar();
-
-                var item = listaClientes.Where(t => t.Documento == clientes.Documento).FirstOrDefault();
-
-                if (item!=null)
+                try
                 {
-                    Deletar(clientes.Documento);
+                    using (SqlConnection connection = new SqlConnection(_appConfig.ConnectionString))
+                    {
+                        connection.Open();
+
+                        using (SqlCommand cmd = new SqlCommand("PROC_Inserir_Clientes", connection))
+                        {
+                            cmd.CommandType = CommandType.StoredProcedure;
+
+                            cmd.Parameters.AddWithValue("@IdCliente", clientes.IdCliente);
+                            cmd.Parameters.AddWithValue("@Documento", clientes.Documento);
+                            cmd.Parameters.AddWithValue("@Nome", clientes.Nome);
+                            cmd.Parameters.AddWithValue("@Sexo", clientes.Sexo);
+                            cmd.Parameters.AddWithValue("@Email", clientes.Email);
+                            cmd.Parameters.AddWithValue("@Telefone", clientes.Telefone);
+                            cmd.Parameters.AddWithValue("@Fax", clientes.Fax);
+                            cmd.Parameters.AddWithValue("@UF", clientes.UF);
+
+                            cmd.ExecuteNonQuery();
+                        }           
+                    }
                 }
+                catch (Exception ex) 
+                {
 
-                string clientesTexto = JsonConvert.SerializeObject(clientes) + "," + Environment.NewLine;
 
-                File.AppendAllText("C:\\Users\\famon\\OneDrive\\Área de Trabalho\\CadastroClientes\\BancoDados\\BancoDados.txt", clientesTexto);
+                }
             }
 
             public List<Clientes> Listar()
             {
-                var clientes = File.ReadAllText("C:\\Users\\famon\\OneDrive\\Área de Trabalho\\CadastroClientes\\BancoDados\\BancoDados.txt");
-
-                List<Clientes> clientesLista = JsonConvert.DeserializeObject<List<Clientes>>("[" + clientes + "]");
-
-                return clientesLista.OrderByDescending(t => t.Nome).ToList();
+                return null;
             }
 
             public bool Deletar(string Documento)
             {
-                var listaClientes = Listar();
-                var item = listaClientes.Where(t => t.Documento == Documento).FirstOrDefault();
-                if (item != null)
-                {
-                    listaClientes.Remove(item);
-
-                    File.WriteAllText("C:\\Users\\famon\\OneDrive\\Área de Trabalho\\CadastroClientes\\BancoDados\\BancoDados.txt", string.Empty);
-
-                    foreach (var cliente in listaClientes)
-                    {
-                        Salvar(cliente);
-                    }
-
-                    return true;
-                }
-
                 return false;
             }
 
             public Clientes GetCliente(string Documento)
             {
-                var clienteLista = Listar();
-                var item = clienteLista.Where(t => t.Documento == Documento).FirstOrDefault();
-
-                return item;
+                return null;
             }
         }
     }
