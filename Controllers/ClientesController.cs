@@ -14,7 +14,7 @@ namespace CadastroClientes.Controllers
         {   
             try
             {
-                ClientesRepository clientes = new ClientesRepository();
+                ClientesRepository clientes = new ClientesRepository(null);
                 clientes.Salvar(cadastro);
             }
             catch (Exception ex)
@@ -46,7 +46,7 @@ namespace CadastroClientes.Controllers
             List<Clientes> listaCli = null;
             try
             {
-                ClientesRepository clientesRepo = new ClientesRepository();
+                ClientesRepository clientesRepo = new ClientesRepository(null);
                 listaCli = clientesRepo.Listar();
             }
             catch (Exception ex)
@@ -62,7 +62,7 @@ namespace CadastroClientes.Controllers
         {
             try
             {
-                ClientesRepository clientes = new ClientesRepository();
+                ClientesRepository clientes = new ClientesRepository(null);
                 bool retornoDelete = clientes.Deletar(Documento);
 
                 return retornoDelete;
@@ -80,7 +80,7 @@ namespace CadastroClientes.Controllers
         {
             try
             {
-                ClientesRepository clientes = new ClientesRepository();
+                ClientesRepository clientes = new ClientesRepository(null);
                 var retorno = clientes.GetCliente(Documento);
 
                 return retorno;
